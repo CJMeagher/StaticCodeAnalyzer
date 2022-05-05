@@ -1,0 +1,80 @@
+<h2>Copy of an object</h2>
+<html>
+ <head></head>
+ <body>
+  <p>Often you need to have several copies of the same object. You already know that assigning one variable to another does not create a new object, instead, the new variable <strong>refers </strong>to the <strong>same object</strong>. For immutable objects, e.g. strings, it is enough: you can easily access and change variables independently of other variables. However, with mutable objects, if you assign one variable to another and then modify an object using any of these variables, it will affect both variables. This is so because with <em>immutable</em> objects, each time you try to modify them, a new object is created. <em>Mutable</em> objects, in contrary, are modified in place. Think, what if we want to copy a mutable object and alter the original without changing the copy? In this topic, we will learn to do so.</p> 
+  <h5 id="copy-a-mutable-shallow-copy">Copy a mutable: shallow copy</h5> 
+  <p>To copy an object, we can use shallow copying, it is often used with mutable containers. As you know, mutable containers, e.g. a list, store <strong>references </strong>to objects that store values. With shallow copying, we can create a copy of a list that contains the same objects, but the reference to a container will be new.</p> 
+  <p>There are two ways to do this. The universal way is to use the <code class="language-python">copy</code> function<em> </em>from the <code class="language-python">copy</code> module, it works with any object.</p> 
+  <pre><code class="language-python">import copy
+
+lst = [2, 3, 9]
+new_lst = copy.copy(lst)</code></pre> 
+  <p>Also, some containers such as list, set, dictionary have the <code class="language-python">copy</code> <em>method</em> which can be used instead of the <code class="language-python">copy</code> <em>function</em>.</p> 
+  <pre><code class="language-python">lst = [2, 3, 9]
+new_lst = lst.copy()</code></pre> 
+  <p>In both cases, a <strong>new list</strong> is created that stores references to <strong>the same objects</strong>.</p> 
+  <p><img alt="" src="https://ucarecdn.com/58eb8c26-e817-4d14-9321-dd4b35ccd7e9/"></p> 
+  <p>Now, if we change one list, this will not affect the other one.</p> 
+  <pre><code class="language-python">print(lst, id(lst))            # [2, 3, 9] 4334518600
+print(new_lst, id(new_lst))    # [2, 3, 9] 4302483912
+
+# we change an element of the first list
+lst[2] = 0
+print(lst, id(lst))            # [2, 3, 0] 4334518600
+
+# the new list remains the same
+print(new_lst, id(new_lst))    # [2, 3, 9] 4302483912</code></pre> 
+  <p>The modified list will store a reference to a new object:</p> 
+  <p><img alt="" src="https://ucarecdn.com/1bf2e7e3-e6f9-4f36-8ee8-6ef08e365ec9/"></p> 
+  <h5 id="not-so-simple">Not so simple</h5> 
+  <p>Let's now see another example with a dictionary. When we use shallow copying, the values stored in a dictionary are not copied (look at the result of the <code class="language-python">id</code> function):</p> 
+  <pre><code class="language-python">menu = {
+   'breakfast': ['porridge'],
+   'lunch': ['soup', 'main course', 'compote'],
+   'dinner': ['main course', 'dessert', 'tea'],
+}
+
+copy_menu = menu.copy()
+
+# a new container is created:
+print(id(menu), id(copy_menu))                      # 4353003592 4353042040
+
+# but the stored values are the same
+print(id(menu['lunch']), id(copy_menu['lunch']))    # 4353060296 4353060296</code></pre> 
+  <p>The thing is, when we use shallow copying, only the container is duplicated but the elements remain the same.</p> 
+  <p>However, you might want to copy the elements as well. For example, when elements of a list are lists themselves and you want to modify them without changing the copy. Here is how a shallow copy works without copying inner elements:</p> 
+  <p><img alt="" src="https://ucarecdn.com/6a4b0c2e-b3fb-4a01-b6d3-125cf977b518/"></p> 
+  <p>In this example, the copied list <code class="language-python">new_lst</code> is a new object that, however, contains references to the same lists as the initial <code class="language-python">lst</code>. So, when we change the list that is an element of <code class="language-python">lst</code>, we also change it in <code class="language-python">new_lst</code>.</p> 
+  <p></p>
+  <div class="alert alert-primary">
+   Note that there is only one object that stores number 5 because Python reuses objects containing small integers for the sake of memory usage optimization.
+  </div>
+  <p></p> 
+  <p>Let's see how to create a copy of a list that doesn't share its elements with the initial one.</p> 
+  <h5 id="copy-a-mutable-deep-copy">Copy a mutable: deep copy</h5> 
+  <p>The <code class="language-python">deepcopy</code> function from the <code class="language-python">copy</code> module creates a clone that doesn't relate to the initial object.</p> 
+  <pre><code class="language-python">lst = [[5, 5], [2, 3, 9]]
+new_lst = copy.deepcopy(lst)</code></pre> 
+  <p>If the given object is a container that stores references to other objects, this function recursively copies those objects as well, not only references to them. As a result, a new container with new elements is created.</p> 
+  <p><img alt="" src="https://ucarecdn.com/381bcd3d-77bf-4f08-a0c9-cf64d776a8c0/"></p> 
+  <p></p>
+  <div class="alert alert-primary">
+   You can notice that the 
+   <code class="language-python">deepcopy</code> function doesn't copy objects that contain integers. Again, this is because Python tries to optimize the use of memory. Since integers in Python are 
+   <strong>immutable</strong>, this doesn't create any problems.
+  </div>
+  <p></p> 
+  <p>Now you can modify the initial object how you want and this will not affect the copy.</p> 
+  <pre><code class="language-python">lst[0].append(5)
+
+print(lst)                     # [[5, 5, 5], [2, 3, 9]]
+print(new_lst)                 # [[5, 5], [2, 3, 9]]</code></pre> 
+  <p>Using a deep copy may sound as a perfect solution whenever we want to copy an object: why bother about mutability if we can just use <code class="language-python">copy.deepcopy()</code>? However, the <code class="language-python">deepcopy</code> function has a problem: it consumes a lot of memory because it duplicates the entire structure of an object. Shallow copy uses less memory, so it's better to make sure that changing one of the copies will not affect the rest and use the shallow copying in this case.</p> 
+  <h5 id="summary">Summary</h5> 
+  <ul> 
+   <li>The <code class="language-python">copy</code> function duplicates the container but not the items in the container. It consumes less memory comparing to the <code class="language-python">deepcopy</code> function, but might create problems because the copies share their elements.</li> 
+   <li>The <code class="language-python">deepcopy</code> function creates a copy of the container and also recursively clones all items in the container. The resulting copies are independent but this requires a lot of memory.</li> 
+  </ul>
+ </body>
+</html>

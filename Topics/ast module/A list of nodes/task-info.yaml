@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import ast
+
+    expression = "(34 + 6) * (23**2 - 7 + 45**2)"
+
+    # put your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15493#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Fri, 22 Apr 2022 21:41:58 UTC
+record: -1

@@ -1,0 +1,18 @@
+<h2>Nested list</h2>
+<html>
+ <head></head>
+ <body>
+  <p>Containers in Python don't store values inside, instead they store references to other objects. This allows us to do crazy things, for example, put a list inside itself.</p> 
+  <pre><code class="language-python">empty_l = []
+empty_l.append(empty_l)
+
+print(empty_l)    # [[...]]</code></pre> 
+  <p>When Python sees that a list lies inside itself, it replaces the list with <code class="language-python">[...]</code> in output.</p> 
+  <p>What will be the output of <code class="language-python">print(empty_l.copy())</code>?</p> 
+  <p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-529').style.display='inline'"> Hint </button> </p>
+  <div id="hint-529" style="display:none;">
+   Just launch the code in an interpreter. 
+  </div>
+  <p></p>
+ </body>
+</html>

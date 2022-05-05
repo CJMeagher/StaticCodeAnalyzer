@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: my_copy = copy.copy(lissst)
+- text: my_copy = copy.deepcopy(lissst)
+- text: my_copy = lissst.copy()
+- text: my_copy = [lissst[0], lissst[1], lissst[2]]
+- text: my_copy = lissst
+message_correct: Congratulations!
+message_incorrect: Incorrect solution
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9272#comment
+status: Solved
+record: -1

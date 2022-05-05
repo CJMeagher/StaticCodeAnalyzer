@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: <code>visit()</code>
+- text: <code>ast.literal_eval()</code>
+- text: <code>ast.dump()</code>
+- text: <code>ast.walk()</code>
+message_correct: Congratulations!
+message_incorrect: Incorrect solution
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15491#comment
+status: Solved
+record: -1
